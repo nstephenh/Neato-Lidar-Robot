@@ -13,10 +13,10 @@ class LIDAR:
 		byteposition = 23
 		done = 0
 		start = 0
+		lastdata = 0
 		while done == 0:
 			rawdata = ser.read()
 			data = ord(rawdata)
-			lastdata = 0
 			if data == 250:
 				byteposition = 0 # Shows the start of the packet
 			if byteposition == 1:
@@ -49,14 +49,9 @@ class LIDAR:
 		return True
 		
 	def readdegree(self, scannumber, datanumber, data1, data2):
-		angle = scannumber * 4 + datanumber
-		angle_rad = angle * math.pi / 180.0
-		c = math.cos(angle_rad)
-		s = -math.sin(angle_rad)
+		angle = (scannumber * 4) + datanumber
 		distance = data1 | (( data2 & 0x3f) << 8)
-		dist_x = distance*c
-		dist_y = distance*s
-		print (dist_x, dist_y)
+		print (angle, distance)
 		
 lidar = LIDAR()
 lidar.scan()
