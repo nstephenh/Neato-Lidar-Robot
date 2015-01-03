@@ -52,11 +52,11 @@ class LIDAR:
 	def readdegree(self, scannumber, datanumber, data1, data2):
 		angle = (scannumber * 4) + datanumber
 		distance = data1 | (( data2 & 0x3f) << 8)
-		if distance > 53:
+		if ((angle < 0) or (angle > 360)):
+			return [0,0]
+		elif distance > 53:
 			coordinate = [distance, angle]
 			return coordinate
-		elif angle < 0 or angle > 360:
-			return [0,0]
 		else:
 			return [0, angle]
 		
