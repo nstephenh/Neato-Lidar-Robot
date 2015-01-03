@@ -24,26 +24,23 @@ class LIDAR:
 				if packetposition == 0:
 					start = 1
 			if start == 1:
-				if byteposition == 2 or byteposition == 3:
-					# implement speed info here if necessary, for now were ignoring it
-					speed = "fast"
 				if byteposition == 4:
 					lastdata = data
-				if byteposition == 5:
+				elif byteposition == 5:
 					self.readdegree(packetposition, 1, lastdata, data)
-				if byteposition == 8:
+				elif byteposition == 8:
 					lastdata = data
-				if byteposition == 9:
+				elif byteposition == 9:
 					self.readdegree(packetposition, 2, lastdata, data)
-				if byteposition == 10:
+				elif byteposition == 10:
 					lastdata = data
-				if byteposition == 11:
+				elif byteposition == 11:
 					self.readdegree(packetposition, 3, lastdata, data)
-				if byteposition == 16:
+				elif byteposition == 16:
 					lastdata = data
-				if byteposition == 17:
+				elif byteposition == 17:
 					self.readdegree(packetposition, 4, lastdata, data)
-				if  packetposition == 89 and byteposition == 21:
+				elif  packetposition == 89 and byteposition == 21:
 					done =	1
 			byteposition += 1
 		return True
@@ -51,7 +48,7 @@ class LIDAR:
 	def readdegree(self, scannumber, datanumber, data1, data2):
 		angle = (scannumber * 4) + datanumber
 		distance = data1 | (( data2 & 0x3f) << 8)
-		print (angle, distance)
+		print (distance, angle)
 		
 lidar = LIDAR()
 lidar.scan()
