@@ -35,7 +35,12 @@ class LIDAR:
 			return 0
 		else:
 			return 1
-	
+	def readdata(self, scan):
+		for 
+			
+			
+		
+		
 	def readdegree(self, scannumber, datanumber, data1, data2):
 		angle = (scannumber * 4) + datanumber
 		distance = data1 | (( data2 & 0x3f) << 8)
