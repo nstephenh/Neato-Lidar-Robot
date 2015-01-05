@@ -1,7 +1,8 @@
 from LIDAR import LIDAR
 
 lidar = LIDAR()
-data = lidar.scan()
-print data
-print lidar.checkscan(data)
-	
+data = lidar.readscan()
+for coordinate in data:
+	print coordinate[0], ",", coordinate[1]
+
+

@@ -8,36 +8,51 @@ ser = serial.Serial(port, baud)
 
 
 class LIDAR:
-	def scan(self):
-		packetposition = 90
-		byteposition = 0
-		done = 0
-		started = True
-		scandata = []
-		ser.flushInput()
+	def readpacket(self):
+		done = False
+		packetdata = []
 		rawdata = 0
-		while done == 0:
+		while done == False:
 			rawdata = ser.read()
 			if ord(rawdata) == 250:
 				rawdata = ser.read()
 				if ord(rawdata) >=160 and ord(rawdata) <= 249 :
 					index = ord(rawdata)
-					scandata = [ord(data) for data in (ser.read(20))]
-					done = 1
-		return [250] + [index] + scandata
+					packetdata = [ord(data) for data in (ser.read(20))]
+					done = True
+					return [250] + [index] + packetdata
 			
 	
-	def checkscan(self, scandata):
+	def checkpacket(self, scandata):
 		checksumdata = int(scandata[20]) + (int(scandata[21]) << 8)
 		data = scandata[:21]
 		if self.checksum(data) == checksumdata:
-			print "valid data"
-			return 0
+			return True
 		else:
-			return 1
-	def readdata(self, scan):
-		for 
+			return False
 			
+	def readscan(self):
+		done = False
+		started = False
+		scandata = []
+		ser.flushInput()
+		while done == False:
+			packet = self.readpacket()
+			if self.checkpacket(packet):
+				if packet[1] == 160:
+					started = True
+					print "started"
+				if started == True:
+					scannumber = packet[1] - 160
+					scandata.append(self.readdegree(scannumber, 1, packet[4], packet[5]))
+					scandata.append(self.readdegree(scannumber, 2, packet[8], packet[9]))
+					scandata.append(self.readdegree(scannumber, 3, packet[12], packet[13]))
+					scandata.append(self.readdegree(scannumber, 4, packet[16], packet[17]))
+				if packet[1] == 249 and started == True:
+					print "finished"
+					done == True
+					return scandata
+					
 			
 		
 		
@@ -46,7 +61,7 @@ class LIDAR:
 		distance = data1 | (( data2 & 0x3f) << 8)
 		if ((angle < 0) or (angle > 360)):
 			return [0,0]
-		elif distance > 53:
+		elif distance > 0:
 			coordinate = [distance, angle]
 			return coordinate
 		else:
