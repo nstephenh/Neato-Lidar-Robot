@@ -41,7 +41,6 @@ class LIDAR:
 			if self.checkpacket(packet):
 				if packet[1] == 160:
 					started = True
-					print "started"
 				if started == True:
 					scannumber = packet[1] - 160
 					scandata.append(self.readdegree(scannumber, 1, packet[4], packet[5]))
@@ -49,21 +48,14 @@ class LIDAR:
 					scandata.append(self.readdegree(scannumber, 3, packet[12], packet[13]))
 					scandata.append(self.readdegree(scannumber, 4, packet[16], packet[17]))
 				if packet[1] == 249 and started == True:
-					print "finished"
 					done == True
 					return scandata
-					
-			
-		
 		
 	def readdegree(self, scannumber, datanumber, data1, data2):
 		angle = (scannumber * 4) + datanumber
 		distance = data1 | (( data2 & 0x3f) << 8)
-		if ((angle < 0) or (angle > 360)):
-			return [0,0]
-		elif distance > 0:
-			coordinate = [distance, angle]
-			return coordinate
+		if distance > 100:
+			return [distance, angle]
 		else:
 			return [0, angle]
 		
