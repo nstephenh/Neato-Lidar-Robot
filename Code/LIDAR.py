@@ -1,8 +1,12 @@
 import time, serial, math
-
 print "Lidar Sensor Program by Noah Haskell"
 
-port = "/dev/ttyACM0"
+from sys import platform as _platform
+if _platform == "linux" or _platform == "linux2":
+    port = "/dev/ttyACM0"
+elif _platform == "win32":
+    # Windows https://www.pjrc.com/teensy/td_download.html
+	port = "Com3"
 baud = 115200
 ser = serial.Serial(port, baud)
 

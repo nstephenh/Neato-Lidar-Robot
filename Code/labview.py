@@ -2,12 +2,13 @@ from LIDAR import LIDAR
 LIDAR = LIDAR()
 from networktables import NetworkTable
 
-ip = ""
-NetworkTable.setIPAddress(ip)
+NetworkTable.setIPAddress("localhost")
 NetworkTable.setClientMode()
 NetworkTable.initialize()
 
 dashboard = NetworkTable.getTable('SmartDashboard')
 
 while True:
-	dashboard.putArray(LIDAR.readscan())
+	for data in LIDAR.readscan():
+		degree = "deg" + str(data[1])
+		dashboard.putNumber(degree, data[0])
