@@ -1,4 +1,5 @@
 Neato-Lidar-Robot
 =================
 
-Using the Neato's LIDAR sensor for autonomous navigation of a robot. This is for Dr. LoBuglio's REX Engineering class and FRC Team 900.
+Pushes data from a Neato-XV11 LIDAR Module to LabVIEWs Network Tables.
+To use this for your team, change the team number from 900 to your team number.
