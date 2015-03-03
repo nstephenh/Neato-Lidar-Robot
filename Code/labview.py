@@ -2,8 +2,8 @@ from LIDAR import LIDAR
 LIDAR = LIDAR()
 from networktables import NetworkTable
 
-NetworkTable.setIPAddress("localhost")
-#~ NetworkTable.setTeam(900)
+#NetworkTable.setIPAddress("localhost")
+NetworkTable.setTeam(900)
 NetworkTable.setClientMode()
 NetworkTable.initialize()
 
